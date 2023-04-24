@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import entities.enums.Position;
+import exceptions.NegativeSalaryException;
 import utils.NumberFormat;
 
 public class Employee extends Person {
@@ -13,8 +14,14 @@ public class Employee extends Person {
   private BigDecimal salary;
   private Position position;
 
-  public Employee(String name, LocalDate birthDate, BigDecimal salary, Position position) {
+  public Employee(String name, LocalDate birthDate, BigDecimal salary, Position position)
+      throws NegativeSalaryException {
     super(name, birthDate);
+
+    if (salary.compareTo(BigDecimal.ZERO) < 0) {
+      throw new NegativeSalaryException();
+    }
+
     this.salary = salary;
     this.position = position;
   }
@@ -23,8 +30,9 @@ public class Employee extends Person {
     return salary;
   }
 
-  public void setSalary(BigDecimal salary) {
-    this.salary = salary;
+  public void incrementSalary(BigDecimal salary) {
+    BigDecimal newSalary = this.salary.add(salary);
+    this.salary = newSalary;
   }
 
   public String getPosition() {
