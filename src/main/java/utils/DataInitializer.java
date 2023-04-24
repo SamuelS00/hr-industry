@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import entities.Employee;
 import entities.enums.Position;
+import exceptions.NegativeSalaryException;
 
 public class DataInitializer {
 
@@ -32,7 +33,10 @@ public class DataInitializer {
       }
     } catch (IOException e) {
       System.out.println("Error: " + e.getMessage());
+    } catch (NegativeSalaryException e) {
+      System.out.println("Error: " + e.getMessage());
     }
+
     return employees;
   }
 
