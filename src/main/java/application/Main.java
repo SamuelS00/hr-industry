@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import entities.Employee;
+import exceptions.InvalidMonthException;
 import services.EmployeeManager;
 import utils.DataInitializer;
 import utils.TitleLog;
@@ -41,10 +42,14 @@ public class Main {
     });
     TitleLog.linebreak();
 
-    TitleLog.execute("Imprimir os funcionários que fazem aniversário no mês 10 e 12: ");
-    employeeManager.printEmployeesByBirthMonth(10);
-    employeeManager.printEmployeesByBirthMonth(12);
-    TitleLog.linebreak();
+    try {
+      TitleLog.execute("Imprimir os funcionários que fazem aniversário no mês 10 e 12: ");
+      employeeManager.printEmployeesByBirthMonth(10);
+      employeeManager.printEmployeesByBirthMonth(12);
+      TitleLog.linebreak();
+    } catch (InvalidMonthException e) {
+      e.printStackTrace();
+    }
 
     TitleLog.execute("Imprimir a lista de funcionários por ordem alfabética: ");
     employeeManager.printEmployeesInAlphabeticalOrder();
