@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import entities.Employee;
+import exceptions.InvalidMonthException;
 import utils.NumberFormat;
 
 public class EmployeeManager {
@@ -52,7 +53,11 @@ public class EmployeeManager {
     employees.forEach(System.out::println);
   }
 
-  public void printEmployeesByBirthMonth(int month) {
+  public void printEmployeesByBirthMonth(int month) throws InvalidMonthException {
+    if (month < 1 || month > 12) {
+      throw new InvalidMonthException();
+    }
+
     employees.forEach(e -> {
       int birthDate = e.getBirthDate().getMonthValue();
       if (birthDate == month) {

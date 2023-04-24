@@ -3,6 +3,8 @@ package services;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import entities.Employee;
 import entities.enums.Position;
+import exceptions.InvalidMonthException;
 import exceptions.NegativeSalaryException;
 import utils.DataInitializer;
 
@@ -119,13 +122,26 @@ public class EmployeeManagerTest {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
 
-    employeeManager.printEmployeesByBirthMonth(10);
+    try {
+      employeeManager.printEmployeesByBirthMonth(10);
+    } catch (InvalidMonthException e) {
+      e.printStackTrace();
+    }
 
     String expectedOutput =
         "Name: Maria, Position: Operador, Salary: R$ 2.009,44, Birthdate: 18/10/2000\n"
             + "Name: Miguel, Position: Diretor, Salary: R$ 19.119,88, Birthdate: 14/10/1988\n";
 
     assertEquals(expectedOutput, outContent.toString());
+  }
+
+  @Test
+  @DisplayName("Test exception throwing for invalid month in the printEmployeesBybirthMonth method")
+  void testPrintEmployeesBybirthMonthInvalidMonth() {
+    assertThrows(InvalidMonthException.class, () -> {
+      employeeManager.printEmployeesByBirthMonth(13);
+      fail("Should throw an exception InvalidMonthException");
+    });
   }
 
   @Test
