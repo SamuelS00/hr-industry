@@ -16,6 +16,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import entities.Employee;
 import entities.enums.Position;
+import exceptions.NegativeSalaryException;
 import utils.DataInitializer;
 
 public class EmployeeManagerTest {
@@ -29,12 +30,23 @@ public class EmployeeManagerTest {
     employeeManager = new EmployeeManager(employees);
   }
 
+  public Employee createEmployee() {
+    Employee employee = null;
+    try {
+      employee = new Employee("Lucas", LocalDate.of(1998, 3, 11), new BigDecimal("5000"),
+          Position.CONTADOR);
+    } catch (NegativeSalaryException e) {
+      e.printStackTrace();
+    }
+    return employee;
+  };
+
   @Test
   @DisplayName("Test addEmployee() method with valid input")
   public void testAddEmployee() {
-    Employee employee =
-        new Employee("Lucas", LocalDate.of(1998, 3, 11), new BigDecimal("5000"), Position.CONTADOR);
+    Employee employee = createEmployee();
     employeeManager.addEmployee(employee);
+    assertNotNull(employee);
     assertEquals(11, employeeManager.size());
   }
 

@@ -39,7 +39,8 @@ public class EmployeeManager {
     final BigDecimal increasePercentage = BigDecimal.valueOf(percentage / 100);
     employees.forEach(e -> {
       BigDecimal increasedSalary = e.getSalary().multiply(BigDecimal.ONE.add(increasePercentage));
-      e.setSalary(increasedSalary);
+      BigDecimal increment = increasedSalary.subtract(e.getSalary());
+      e.incrementSalary(increment);
     });
   }
 
